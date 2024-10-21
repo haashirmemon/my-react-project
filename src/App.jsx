@@ -1,42 +1,42 @@
-import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
-import "./App.css";
-import Header from "./components/header";
-import Home from "./pages/home/home";
-
-import UserLayout from "./components/userLayout";
-import UserProfile from "./pages/users/profile";
-import UserProducts from "./pages/users/products";
-import Bid from "./pages/users/bids";
-import Layout from "./components/layout";
-import Signin from "./pages/auth/signin";
-
-import AllProducts from "./pages/home/allproducts";
-import AddProduct from "./pages/home/addproduct";
-import ProductDetail from "./pages/home/productdetail"; 
+import Navbar from './components/navbar';
+import React from 'react'
+import Product from './components/Product';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import Productdetail from './components/Productdetails';
+import Cart from './components/Cart';
+import { items } from './components/Data';
+import { useState } from 'react';
+import Searchitem from './components/Searchitem';
+import Signinform from './auth/login';
+import Signupform from './auth/signup';
+import AddProduct from './components/addproduct';
 
 
-function App() {
+const App = () => {
+  const [data, setData] = useState([...items])
+  const [cart, setCart] = useState([])
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/signin" element={<Signin />} />
+    <>
+      <BrowserRouter>
+      <Navbar cart={cart} setData={setData} />
+     
+        <Routes>
+       
+         <Route path='/' element={<Product items={data} cart={cart} setcart={setCart}/>}/>
+         <Route path='/cart' element={<Cart cart={cart} setCart={setCart} />}/>
+         <Route path='/search/:term' element={<Searchitem cart={cart} setcart={setCart}/>}/>
 
-        <Route path="/" element={<Layout />}>
-          <Route index element={<Home />} />
-          <Route path="/addProduct" element={<AddProduct />} />
-          <Route path="allproducts" element={<AllProducts />} />
-          <Route path="products/:id" element={<ProductDetail />} /> {/* Use the imported component */}
-        </Route>
+         <Route path='/products/:id' element={<Productdetail cart={cart} setcart={setCart} />}/>
+         <Route path="/signin" element={<Signinform/>} />
+         <Route path="/signin/signup" element={<Signupform/>} />
+         <Route path="/addproduct" element={<AddProduct/>} />
+          </Routes>
+          
+          </BrowserRouter>
 
-        <Route path="/user" element={<UserLayout />}>
-          <Route path="profile" element={<UserProfile />} />
-          <Route path="products" element={<UserProducts />} />
-          <Route path="bids" element={<Bid />} />
-        </Route>
-      </Routes>
-    </BrowserRouter>
-  );
+    </>
+
+  )
 }
 
-export default App;
-
+export default App
