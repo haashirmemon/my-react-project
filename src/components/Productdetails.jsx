@@ -1,12 +1,15 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { useParams } from 'react-router'
 import Product from './Product'
 import { items } from './Data'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { UserContext } from './context/usercontext';
+import { Link } from 'react-router-dom';
 
 
 const Productdetail = ({ cart, setcart }) => {
+  const {user} = useContext(UserContext)
   const { id } = useParams()
   const [product, setProduct] = useState({})
   const [relatedproducts, setrelatedproducts] = useState([])
